@@ -54,4 +54,12 @@ func TestLogic(t *testing.T) {
 	if stat != expectStat {
 		t.Fatalf("expect \n%q \nbut got \n%q\n", expectStat, stat)
 	}
+
+	// test nil left
+	expectStat = `(col2 = '2')`
+	stat = Logic(nil).AND(Column("col2").Equal(2)).
+		String()
+	if stat != expectStat {
+		t.Fatalf("expect \n%q \nbut got \n%q\n", expectStat, stat)
+	}
 }

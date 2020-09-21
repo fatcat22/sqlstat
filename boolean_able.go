@@ -63,9 +63,10 @@ func (col Column) Great(val interface{}) BooleanAbleStatement {
 // logic
 
 type logicObject struct {
-	left  BooleanAbleStatement
-	logic string
-	right BooleanAbleStatement
+	left      BooleanAbleStatement
+	rightOnly bool
+	logic     string
+	right     BooleanAbleStatement
 }
 
 func (lo *logicObject) BooleanAble() {
@@ -78,7 +79,11 @@ func (lo *logicObject) String() string {
 	if lo.left != nil {
 		buf.WriteString(fmt.Sprintf("(%s)", lo.left.String()))
 	}
-	buf.WriteString(lo.logic)
+
+	if (lo.left != nil) || (lo.left == nil && lo.rightOnly) {
+		buf.WriteString(lo.logic)
+	}
+
 	buf.WriteString(fmt.Sprintf("(%s)", lo.right.String()))
 
 	return buf.String()
@@ -106,5 +111,6 @@ func (lo *logicObject) NOT(stat BooleanAbleStatement) BooleanAbleStatement {
 	lo.logic = "NOT"
 	lo.right = lo.left
 	lo.left = nil
+	lo.rightOnly = true
 	return lo
 }
