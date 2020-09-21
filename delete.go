@@ -7,7 +7,7 @@ import (
 
 type deleteObject struct {
 	tableName string
-	where     booleanAbleStatement
+	where     BooleanAbleStatement
 }
 
 func DeleteFrom(tableName string) *deleteObject {
@@ -28,7 +28,7 @@ func (do *deleteObject) String() string {
 	return buf.String()
 }
 
-func (do *deleteObject) Where(where booleanAbleStatement) *deleteObject {
+func (do *deleteObject) Where(where BooleanAbleStatement) *deleteObject {
 	do.where = where
 	return do
 }

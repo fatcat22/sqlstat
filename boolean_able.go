@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-type booleanAbleStatement interface {
+type BooleanAbleStatement interface {
 	BooleanAble()
 	String() string
 }
@@ -27,7 +27,7 @@ func (co *compareObject) String() string {
 	return fmt.Sprintf("%s %s '%v'", string(co.col), co.symbol, co.value)
 }
 
-func (col Column) Equal(val interface{}) booleanAbleStatement {
+func (col Column) Equal(val interface{}) BooleanAbleStatement {
 	return &compareObject{
 		col:    col,
 		symbol: "=",
@@ -35,7 +35,7 @@ func (col Column) Equal(val interface{}) booleanAbleStatement {
 	}
 }
 
-func (col Column) NotEqual(val interface{}) booleanAbleStatement {
+func (col Column) NotEqual(val interface{}) BooleanAbleStatement {
 	return &compareObject{
 		col:    col,
 		symbol: "!=",
@@ -43,7 +43,7 @@ func (col Column) NotEqual(val interface{}) booleanAbleStatement {
 	}
 }
 
-func (col Column) LessOrEqual(val interface{}) booleanAbleStatement {
+func (col Column) LessOrEqual(val interface{}) BooleanAbleStatement {
 	return &compareObject{
 		col:    col,
 		symbol: "<=",
@@ -51,7 +51,7 @@ func (col Column) LessOrEqual(val interface{}) booleanAbleStatement {
 	}
 }
 
-func (col Column) Great(val interface{}) booleanAbleStatement {
+func (col Column) Great(val interface{}) BooleanAbleStatement {
 	return &compareObject{
 		col:    col,
 		symbol: ">",
@@ -63,9 +63,9 @@ func (col Column) Great(val interface{}) booleanAbleStatement {
 // logic
 
 type logicObject struct {
-	left  booleanAbleStatement
+	left  BooleanAbleStatement
 	logic string
-	right booleanAbleStatement
+	right BooleanAbleStatement
 }
 
 func (lo *logicObject) BooleanAble() {
@@ -84,25 +84,25 @@ func (lo *logicObject) String() string {
 	return buf.String()
 }
 
-func Logic(stat booleanAbleStatement) *logicObject {
+func Logic(stat BooleanAbleStatement) *logicObject {
 	return &logicObject{
 		left: stat,
 	}
 }
 
-func (lo *logicObject) AND(stat booleanAbleStatement) booleanAbleStatement {
+func (lo *logicObject) AND(stat BooleanAbleStatement) BooleanAbleStatement {
 	lo.logic = "AND"
 	lo.right = stat
 	return lo
 }
 
-func (lo *logicObject) OR(stat booleanAbleStatement) booleanAbleStatement {
+func (lo *logicObject) OR(stat BooleanAbleStatement) BooleanAbleStatement {
 	lo.logic = "OR"
 	lo.right = stat
 	return lo
 }
 
-func (lo *logicObject) NOT(stat booleanAbleStatement) booleanAbleStatement {
+func (lo *logicObject) NOT(stat BooleanAbleStatement) BooleanAbleStatement {
 	lo.logic = "NOT"
 	lo.right = lo.left
 	lo.left = nil

@@ -24,7 +24,7 @@ type selectObject struct {
 	columns []Column
 
 	// where
-	where booleanAbleStatement
+	where BooleanAbleStatement
 
 	// order by
 	orderBy []orderInfo
@@ -87,7 +87,7 @@ func (so *selectObject) From(tableName string) *selectObject {
 	return so
 }
 
-func (so *selectObject) Where(where booleanAbleStatement) *selectObject {
+func (so *selectObject) Where(where BooleanAbleStatement) *selectObject {
 	so.where = where
 	return so
 }

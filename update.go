@@ -9,7 +9,7 @@ type updateObject struct {
 	tableName string
 
 	pairs PairSlice
-	where booleanAbleStatement
+	where BooleanAbleStatement
 }
 
 func Update(tableName string) *updateObject {
@@ -46,7 +46,7 @@ func (uo *updateObject) WithPairSlice(ps PairSlice) *updateObject {
 	return uo
 }
 
-func (uo *updateObject) Where(w booleanAbleStatement) *updateObject {
+func (uo *updateObject) Where(w BooleanAbleStatement) *updateObject {
 	uo.where = w
 	return uo
 }

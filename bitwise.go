@@ -48,7 +48,7 @@ func (bo *bitwiseObject) String() string {
 	return buf.String()
 }
 
-func (bo *bitwiseObject) Equal(v interface{}) booleanAbleStatement {
+func (bo *bitwiseObject) Equal(v interface{}) BooleanAbleStatement {
 	bo.logicSymbol = "="
 	bo.logicValue = v
 	return bo
