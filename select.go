@@ -18,7 +18,7 @@ type orderInfo struct {
 }
 
 type selectObject struct {
-	tableName string
+	tableNames []string
 
 	isCount bool
 	columns []Column
@@ -57,7 +57,7 @@ func (so selectObject) String() string {
 	case so.isCount:
 		columnStrs = fmt.Sprintf("COUNT(%s)", columnStrs)
 	}
-	buf.WriteString(fmt.Sprintf("SELECT %s FROM %s", columnStrs, so.tableName))
+	buf.WriteString(fmt.Sprintf("SELECT %s FROM %s", columnStrs, strings.Join(so.tableNames, ",")))
 
 	if so.where != nil {
 		buf.WriteString(fmt.Sprintf(" WHERE %s", so.where.String()))
@@ -82,8 +82,16 @@ func (so selectObject) String() string {
 	return buf.String()
 }
 
-func (so *selectObject) From(tableName string) *selectObject {
-	so.tableName = tableName
+func (so *selectObject) From(tableNames ...string) *selectObject {
+	existed := make(map[string]struct{})
+
+	for _, name := range tableNames {
+		if _, ok := existed[name]; !ok {
+			so.tableNames = append(so.tableNames, name)
+		}
+		existed[name] = struct{}{}
+	}
+
 	return so
 }
 

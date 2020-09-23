@@ -110,4 +110,17 @@ func TestSelect(t *testing.T) {
 	if stat != expectStat {
 		t.Fatalf("expect \n%q \nbut got \n%q\n", expectStat, stat)
 	}
+
+	// select from 多个表名且有重复
+	expectStat = `SELECT col1 FROM aaa,bbb WHERE (col1 = 'x')AND(col2 = '2') ORDER BY col1 DESC,col2 DESC LIMIT 3, 10`
+	stat = Select(Column("col1")).
+		From("aaa", "bbb", "aaa").
+		Where(Logic(Column("col1").Equal("x")).AND(Column("col2").Equal(2))).
+		OrderBy(Column("col1"), DESC).
+		OrderBy(Column("col2"), DESC).
+		Limit(3, 10).
+		String()
+	if stat != expectStat {
+		t.Fatalf("expect \n%q \nbut got \n%q\n", expectStat, stat)
+	}
 }
