@@ -14,9 +14,10 @@ type BooleanAbleStatement interface {
 // compare
 
 type compareObject struct {
-	col    Column
-	symbol string
-	value  interface{}
+	col         Column
+	symbol      string
+	value       interface{}
+	noQuotaMark bool
 }
 
 func (co *compareObject) BooleanAble() {
@@ -24,7 +25,11 @@ func (co *compareObject) BooleanAble() {
 }
 
 func (co *compareObject) String() string {
-	return fmt.Sprintf("%s %s '%v'", string(co.col), co.symbol, co.value)
+	if co.noQuotaMark {
+		return fmt.Sprintf("%s %s %v", string(co.col), co.symbol, co.value)
+	} else {
+		return fmt.Sprintf("%s %s '%v'", string(co.col), co.symbol, co.value)
+	}
 }
 
 func (col Column) Equal(val interface{}) BooleanAbleStatement {
@@ -32,6 +37,15 @@ func (col Column) Equal(val interface{}) BooleanAbleStatement {
 		col:    col,
 		symbol: "=",
 		value:  val,
+	}
+}
+
+func (col Column) EqualColumn(colName Column) BooleanAbleStatement {
+	return &compareObject{
+		col:         col,
+		symbol:      "=",
+		value:       string(colName),
+		noQuotaMark: true,
 	}
 }
 

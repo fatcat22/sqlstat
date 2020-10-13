@@ -17,6 +17,13 @@ func TestCompare(t *testing.T) {
 		t.Fatalf("expect \n%q \nbut got \n%q\n", expectStat, stat)
 	}
 
+	// column equal
+	expectStat = "col1 = col2"
+	stat = Column("col1").EqualColumn(Column("col2")).String()
+	if stat != expectStat {
+		t.Fatalf("expect \n%q \nbut got \n%q\n", expectStat, stat)
+	}
+
 	// string not equal
 	expectStat = "col1 != 'aaa'"
 	stat = Column("col1").NotEqual("aaa").String()
