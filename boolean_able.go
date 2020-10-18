@@ -73,6 +73,14 @@ func (col Column) Great(val interface{}) BooleanAbleStatement {
 	}
 }
 
+func (col Column) Like(val interface{}) BooleanAbleStatement {
+	return &compareObject{
+		col:    col,
+		symbol: "like",
+		value:  val,
+	}
+}
+
 //
 // logic
 
